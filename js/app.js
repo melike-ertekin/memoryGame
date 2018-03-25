@@ -1,10 +1,24 @@
 restart();
 
+//Click Events
 $( ".restart" ).click(function() {
+
 	restart();
 });
 
 
+$(".card").click(function() {
+
+	$(this).toggleClass("open show");
+});
+
+
+
+
+
+
+
+//Functions
 function restart(){
 
   	//Create a list that holds all of your cards.
@@ -15,7 +29,8 @@ function restart(){
 	list = shuffle(list);
 	//console.log(list);
 
-	console.log($(".card").removeClass("open show match"));
+	$(".card").removeClass("open show match");
+	//console.log($(".card").removeClass("open show match"));
 
 
 	for (let i=0; i<list.length; i++) {
