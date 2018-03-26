@@ -46,25 +46,26 @@ function restart(){
 		oldList[i].children[0].classList.add(newClass);
 		//console.log(oldList[i].children[0].classList);
 	}
-
-	//$('.card').addClass('open show');
-
+//$('.card').addClass('open show');
 }
 
 
 function checkMatch() {
 	var openCards=$('.open');
-	var card1 = openCards[0].children[0].classList.value;
-	var card2 = openCards[1].children[0].classList.value;
 
-	if (card1===card2){
-		openCards[0].classList.add('match');
-		openCards[1].classList.add('match');
+	if(openCards.length == 2) {
+		var card1 = openCards[0].children[0].classList.value;
+		var card2 = openCards[1].children[0].classList.value;
 
-		openCards[0].classList.remove('open');
-		openCards[0].classList.remove('show');
-		openCards[1].classList.remove('open');
-		openCards[1].classList.remove('show');
+		if (card1===card2){
+			openCards[0].classList.add('match');
+			openCards[1].classList.add('match');
+
+			openCards[0].classList.remove('open');
+			openCards[0].classList.remove('show');
+			openCards[1].classList.remove('open');
+			openCards[1].classList.remove('show');
+		}
 	}
 }
 
@@ -75,34 +76,39 @@ $( document ).ready(function() {
 
 
 //Click Events
+var moves=0;
+var counter=0;
+$('.card').click(function() {
+	if(!$(this).hasClass('match')){
+		if (counter<2) {
+			$(this).toggleClass('open show');
+			counter++;
+			moves++;
+			$('.moves').text(moves);
+		}
+		else {
+			counter=1;
+			$('.card').removeClass('open show');
+			$(this).toggleClass('open show');
+			moves++;
+			$('.moves').text(moves);
+		}
+
+
+		if (counter===2) {
+			checkMatch();
+		}
+	}
+});
+
+
 $('.restart').click(function() {
+	moves=0;
+	$('.moves').text(moves);
 	restart();
 
 });
 
-
-var moves=0;
-var counter=0;
-$('.card').click(function() {
-	moves++;
-	$('.moves').text(moves);
-
-	if (counter<2) {
-		$(this).toggleClass('open show');
-		counter++;
-	}
-	else {
-		if (!$(this).hasClass('match')) {
-			counter=1;
-			$('.card').removeClass('open show');
-			$(this).toggleClass('open show');
-		}
-	}
-
-	if (counter===2) {
-		checkMatch();
-	}
-});
 
 
 /*
