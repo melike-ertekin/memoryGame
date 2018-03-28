@@ -11,7 +11,6 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
@@ -22,42 +21,40 @@ function shuffle(array) {
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
-function restart(){
-	var oldList = $('.card');
-	var list = $('.card');
+function restart() {
+	var cardList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-anchor", "fa-leaf",
+	"fa-bicycle", "fa-diamond", "fa-bomb", "fa-leaf", "fa-bomb","fa-bolt", "fa-bicycle", "fa-paper-plane-o", "fa-cube"];
+	var htmlList = $('li.card');
 
-	list =  shuffle(list);
+	var shuffledList =  shuffle(cardList);
+
+
 	$('.card').removeClass('open show match');
 
-	for (let i=0; i<list.length; i++) {
+	for (let i=0; i<shuffledList.length; i++) {
 		//get old class
-		let oldClass = oldList[i].children[0].classList[1] ;
-		//console.log(oldClass);
+		let oldClass = htmlList[i].children[0].classList[1] ;
 
 		//get new class
-		let newClass = list[i].children[0].classList[1];
-		//console.log(newClass);
+		let newClass = shuffledList[i];
 
 		//remove old class
-		oldList[i].children[0].classList.remove(oldClass);
-		//console.log(oldList[i].children[0].classList);
+		htmlList[i].children[0].classList.remove(oldClass);
 
 		//add new class
-		oldList[i].children[0].classList.add(newClass);
-		//console.log(oldList[i].children[0].classList);
+		htmlList[i].children[0].classList.add(newClass);
 	}
-//$('.card').addClass('open show');
 }
 
 
 function checkMatch() {
-	var openCards=$('.open');
+	var openCards = $('.open');
 
-	if(openCards.length == 2) {
+	if(openCards.length === 2) {
 		var card1 = openCards[0].children[0].classList.value;
 		var card2 = openCards[1].children[0].classList.value;
 
-		if (card1===card2){
+		if (card1 === card2){
 			openCards[0].classList.add('match');
 			openCards[1].classList.add('match');
 
