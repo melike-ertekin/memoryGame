@@ -2,7 +2,7 @@
 var second = 0, minute = 0, hour = 0;
 var timer = document.querySelector(".timer");
 var interval;
-
+var star;
 // Start Timer
 function startTimer(){
     interval = setInterval(function(){
@@ -48,6 +48,12 @@ function stopTimer(){
 	second = 0, minute = 0, hour = 0;
 	timer.innerHTML = "00 : 00 : 00";
 	clearInterval(interval);
+}
+
+function resetStar() {
+	$('.star1').removeClass('fa-star-o');
+	$('.star2').removeClass('fa-star-o');
+	$('.star3').removeClass('fa-star-o');
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -115,6 +121,7 @@ function checkMatch() {
 
 			var openCards = $('.match');
 			if(openCards.length===16){
+				$('.modal-star').text(star);
 				$('#theEndModel').modal('show');
 				stopTimer();
 				//Console.log(timer);
@@ -134,6 +141,23 @@ $( document ).ready(function() {
 var moves=0;
 var counter=0;
 $('.card').click(function() {
+
+	if(moves<16){
+		star = 3;
+	}
+	else if(moves<32){
+		star = 2;
+		$('.star1').addClass('fa-star-o');
+	}
+	else if(moves<48){
+		star = 1;
+		$('.star2').addClass('fa-star-o');
+	}
+	else{
+		star = 0;
+		$('.star3').addClass('fa-star-o');
+	}
+
 
 	if(!$(this).hasClass('match')){
 		if (counter<2) {
@@ -170,24 +194,8 @@ $('.card').click(function() {
 });
 
 
-$('.play-again').click(function() {
-	moves=0;
-
-	if(moves<2){
-		$('.moves').text(moves+" Move");
-	}
-	else{
-		$('.moves').text(moves+" Moves");
-	}
-	stopTimer();
-	startTimer();
-	restart();
-
-
-});
-
-
 $('.restart').click(function() {
+	resetStar();
 	moves=0;
 	if(moves<2){
 		$('.moves').text(moves+" Move");
