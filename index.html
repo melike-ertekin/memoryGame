@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Matching Game</title>
     <meta name="description" content="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
@@ -11,33 +12,28 @@
     <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-
-    <!-- Example Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="theEndModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Memory Game</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                </div>
                 <div class="modal-body text-center">
+                    <h1 class="modal-title" id="exampleModalLongTitle">Memory Game</h1>
+                    <hr>
                     <p class="modal-parag">Congratulations! You won!
                         <br>
                         With <span class="moves"></span> and
 
-                        <i class="fa fa-star star1"></i></li>
-                        <i class="fa fa-star star2"></i></li>
-                        <i class="fa fa-star star3"></i></li>
+                        <i class="fa fa-star star1"></i>
+                        <i class="fa fa-star star2"></i>
+                        <i class="fa fa-star star3"></i>
 
+                        <br>
+                        in <span class="modal-timer"></span>
                         <br>
                         Woooooooo!
                     </p>
+                    <hr>
                     <button type="button" class="btn btn-info restart" data-dismiss="modal">Play again!</button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

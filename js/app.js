@@ -1,42 +1,43 @@
-//Functions
 var second = 0, minute = 0, hour = 0;
 var timer = document.querySelector(".timer");
 var interval;
 var star;
+
+//Functions
 // Start Timer
 function startTimer(){
     interval = setInterval(function(){
-    	if(hour<10 && minute<10 && second<10){
+    	if (hour<10 && minute<10 && second<10) {
     		timer.innerHTML = "0"+hour+ " : "+"0"+minute+" : 0"+second;
     	}
-    	else if(hour<10 && minute<10 && second>10){
+    	else if (hour<10 && minute<10 && second>10) {
        		timer.innerHTML = "0"+hour+" : 0"+minute+" : "+second;
     	}
-    	else if(hour<10 && minute>10 && second<10){
+    	else if (hour<10 && minute>10 && second<10) {
        		timer.innerHTML = "0"+hour+" : "+minute+" : 0"+second;
     	}
-    	else if(hour<10 && minute>10 && second>10){
+    	else if (hour<10 && minute>10 && second>10) {
        		timer.innerHTML = "0"+hour+" : "+minute+" : "+second;
     	}
-    	else if(hour>10 && minute<10 && second<10){
+    	else if (hour>10 && minute<10 && second<10) {
        		timer.innerHTML = hour+" : 0"+minute+" : 0"+second;
     	}
-    	else if(hour>10 && minute<10 && second>10){
+    	else if (hour>10 && minute<10 && second>10) {
        		timer.innerHTML = hour+" : 0"+minute+" : "+second;
     	}
-    	else if(hour>10 && minute>10 && second<10){
+    	else if (hour>10 && minute>10 && second<10) {
        		timer.innerHTML = hour+" : "+minute+" : 0"+second;
     	}
-		else if(second>10 && minute>10 && hour>10){
+		else if (second>10 && minute>10 && hour>10) {
     		timer.innerHTML = hour+ " : "+minute+" : "+second;
     	}
 
         second++;
-        if(second == 60){
+        if (second == 60) {
             minute++;
             second = 0;
         }
-        if(minute == 60){
+        if (minute == 60) {
             hour++;
             minute = 0;
         }
@@ -44,12 +45,23 @@ function startTimer(){
 }
 
 //Stop Timer
-function stopTimer(){
+function stopTimer() {
 	second = 0, minute = 0, hour = 0;
 	timer.innerHTML = "00 : 00 : 00";
 	clearInterval(interval);
 }
 
+//Freeze Time
+function freezeTimer() {
+
+	let time = $('.timer').text();
+	console.log(time);
+	$('.modal-timer').text(time);
+	$('.timer').text(time);
+	clearInterval(interval);
+}
+
+//Reset Stars
 function resetStar() {
 	$('.star1').removeClass('fa-star-o');
 	$('.star2').removeClass('fa-star-o');
@@ -70,13 +82,7 @@ function shuffle(array) {
     return array;
 }
 
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided 'shuffle' method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+//Start and Restart - game starts here
 function restart() {
 	var cardList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-anchor", "fa-leaf",
 	"fa-bicycle", "fa-diamond", "fa-bomb", "fa-leaf", "fa-bomb","fa-bolt", "fa-bicycle", "fa-paper-plane-o", "fa-cube"];
@@ -102,8 +108,8 @@ function restart() {
 	}
 }
 
-
-function checkMatch() {
+//Check cards to find match
+function checkMatch(callback) {
 	var openCards = $('.open');
 
 	if(openCards.length === 2) {
@@ -120,17 +126,56 @@ function checkMatch() {
 			openCards[1].classList.remove('show');
 
 			var openCards = $('.match');
+			callback();
 			if(openCards.length===16){
 				$('.modal-star').text(star);
+				freezeTimer();
+
 				$('#theEndModel').modal('show');
-				stopTimer();
-				//Console.log(timer);
 			}
 		}
+		else {
+
+			$(openCards[0]).addClass('animated bounce wrong');
+			$(openCards[1]).addClass('animated bounce wrong');
+
+			setTimeout(function(){
+				$(openCards[0]).removeClass('open show wrong');
+				$(openCards[1]).removeClass('open show wrong');
+				callback();
+    		},1100);
+		}
+	}
+
+
+}
+
+var moves = 0;
+function checkStar(){
+if(moves<16){
+		star = 3;
+	}
+	else if(moves<32){
+		star = 2;
+		$('.star1').addClass('fa-star-o');
+	}
+	else {
+		star = 1;
+		$('.star2').addClass('fa-star-o');
+	}
+
+}
+
+function checkMoveOrMoves(){
+	if(moves < 2) {
+		$('.moves').text(moves+" Move");
+	}
+	else{
+		$('.moves').text(moves+" Moves");
 	}
 }
 
-//game starts
+//game starts when document is ready
 $( document ).ready(function() {
 	restart();
 	startTimer();
@@ -138,75 +183,42 @@ $( document ).ready(function() {
 
 
 //Click Events
-var moves=0;
-var counter=0;
+var counter = 0;
 $('.card').click(function() {
 
-	if(moves<16){
-		star = 3;
-	}
-	else if(moves<32){
-		star = 2;
-		$('.star1').addClass('fa-star-o');
-	}
-	else if(moves<48){
-		star = 1;
-		$('.star2').addClass('fa-star-o');
-	}
-	else{
-		star = 0;
-		$('.star3').addClass('fa-star-o');
-	}
+	checkStar();
 
-
-	if(!$(this).hasClass('match')){
+	if(!$(this).hasClass('match') && !$(this).hasClass('disabled') ){
 		if (counter<2) {
 			$(this).toggleClass('open show');
 			counter++;
 			moves++;
-
-			if(moves<2){
-				$('.moves').text(moves+" Move");
-			}
-			else{
-				$('.moves').text(moves+" Moves");
-			}
-		}
-		else {
-			counter=1;
-			$('.card').removeClass('open show');
-			$(this).toggleClass('open show');
-			moves++;
-
-			if(moves<2){
-				$('.moves').text(moves+" Move");
-			}
-			else{
-				$('.moves').text(moves+" Moves");
-			}
 		}
 
+		checkMoveOrMoves();
 
-		if (counter===2) {
-			checkMatch();
+		if (counter === 2) {
+			$('.card').addClass('disabled');
+			checkMatch(function () {
+				console.log("callback");
+    			$('.card').removeClass('disabled');
+			});
+		counter = 0;
 		}
 	}
+
 });
 
 
 $('.restart').click(function() {
 	resetStar();
-	moves=0;
-	if(moves<2){
-		$('.moves').text(moves+" Move");
-	}
-	else{
-		$('.moves').text(moves+" Moves");
-	}
+	moves = 0;
+
+	checkMoveOrMoves();
+
 	stopTimer();
 	startTimer();
 	restart();
-
 });
 
 

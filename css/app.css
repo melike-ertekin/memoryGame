@@ -71,6 +71,10 @@ h1 {
     cursor: default;
 }
 
+.deck .card.wrong {
+   background: red;
+}
+
 .deck .card.show {
     font-size: 33px;
 }
@@ -107,3 +111,11 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+/*
+ * Modal css
+ */
+
+ .modal-title{
+    color: #17a2b8;
+ }
